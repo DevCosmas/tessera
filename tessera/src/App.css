@@ -143,9 +143,9 @@ b {
 .close--btn:hover {
   color: #000;
 }
-/* .dispNone {
+.dispNone {
   display: none;
-} */
+}
 .confirm {
   color: green;
   width: 80%;

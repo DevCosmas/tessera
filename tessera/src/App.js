@@ -95,8 +95,6 @@ function DisplayTicket({ ticket, setTicket }) {
     }
   }
   async function verifyTx(reference) {
-    console.log(reference);
-
     try {
       const response = await axios.get(
         `https://solanapay-task-ii.onrender.com/api/verifyTx?reference=${ref}`
@@ -105,7 +103,7 @@ function DisplayTicket({ ticket, setTicket }) {
       const { status, message } = response.data;
 
       if (status === 'success') {
-        console.log(message);
+        // console.log(message);
         setRef('');
         setQrCode('');
         setMsg(message);
@@ -169,7 +167,9 @@ function DisplayTicket({ ticket, setTicket }) {
             <input
               type="number"
               value={qty}
-              onChange={(e) => setQty(e.target.value)}
+              onChange={(e) =>
+                setQty(e.target.value < 1 ? 1 : Number(e.target.value))
+              }
             />
           </label>
 
