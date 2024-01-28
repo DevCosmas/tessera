@@ -1,4 +1,5 @@
 import './App.css';
+
 import { useState } from 'react';
 import { createQR } from '@solana/pay';
 import axios from 'axios';
@@ -27,7 +28,7 @@ function DisplayLIst() {
         <h1 className="heading">purchase your ticket here 🎁</h1>
         <p className="sub-heading">buy cheap ticket in less than in a minute</p>
       </span>
-      <div>
+      <div className="list--wrapper">
         <h2>available ticket</h2>
         <ul>
           {ticketDb.map((el, i) => (
@@ -67,12 +68,13 @@ function DisplayTicket({ ticket, setTicket }) {
   }
   const [qty, setQty] = useState(1);
   const [qrCode, setQrCode] = useState('');
-  const [reference, setReference] = useState('');
-
+  const [ref, setRef] = useState('');
+  const [confrimMsg, setMsg] = useState('');
+  // console.log('refer', ref);
   async function generateQrCode(name, label, price, quantity, wallet, message) {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/generateQR',
+        'https://solanapay-task-ii.onrender.com/api/generateQR',
         { name, label, price, quantity, wallet, message }
       );
       const { newURl, ref } = response.data;
@@ -83,34 +85,36 @@ function DisplayTicket({ ticket, setTicket }) {
       reader.onload = (event) => {
         if (typeof event.target?.result === 'string') {
           setQrCode(event.target.result);
-          console.log(qrCode);
+          // console.log(qrCode);
         }
       };
       reader.readAsDataURL(qrBlob);
-      setReference(ref);
-      console.log('REF1', ref);
-      console.log('REF2', reference);
+      setRef(ref);
     } catch (error) {
       console.error('Error making POST request:', error);
     }
   }
-  async function verifyTx(ref) {
-    console.log(ref);
+  async function verifyTx(reference) {
+    console.log(reference);
+
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/verifyTx?reference=${ref}`
+        `https://solanapay-task-ii.onrender.com/api/verifyTx?reference=${ref}`
       );
 
-      const { status } = response.data;
+      const { status, message } = response.data;
 
       if (status === 'success') {
-        setReference(undefined);
-        setQrCode(undefined);
+        console.log(message);
+        setRef('');
+        setQrCode('');
+        setMsg(message);
       }
     } catch (error) {
-      console.error('Error making POST request:', error);
+      console.error('Error making GET request:', error);
     }
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await generateQrCode(
@@ -123,9 +127,12 @@ function DisplayTicket({ ticket, setTicket }) {
     );
   };
   async function handleVerifyTx() {
-    const verified = await verifyTx(reference);
-    if (verified) alert('transaction verified');
-    alert('verification failed');
+    try {
+      await verifyTx(ref);
+      console.log('transaction verified');
+    } catch (err) {
+      console.log('verification failed', err.message);
+    }
   }
   return (
     <div className="form--overlay">
@@ -143,13 +150,18 @@ function DisplayTicket({ ticket, setTicket }) {
             qrCode !== '' ? 'setDisplayNone' : ''
           }`}>
           <span className="summaryDetails">
-            <b>Wallet Address</b> : {ticket.wallet}
+            <b>Wallet Address</b>
+            <p className="summary-child">{ticket.wallet}</p>
           </span>
           <span className="summaryDetails">
-            <b>Price per one</b> : ${ticket.price}
+            <b>Price per one</b>
+            <p className="summary-child">${ticket.price}</p>
           </span>
           <span className="summaryDetails">
-            <b>Total</b> : ${qty > 1 ? ticket.price * qty : ticket.price}
+            <b>Total</b>
+            <p className="summary-child">
+              ${qty > 1 ? ticket.price * qty : ticket.price}
+            </p>
           </span>
 
           <label>
@@ -164,7 +176,10 @@ function DisplayTicket({ ticket, setTicket }) {
           <button className="btn">generate QR code</button>
         </div>
         {qrCode && (
-          <div className="qrcode-wrapper">
+          <div
+            className={`qrcode-wrapper" ${
+              confrimMsg !== '' ? 'dispNone' : ''
+            }`}>
             <img
               src={qrCode}
               style={{
@@ -174,16 +189,22 @@ function DisplayTicket({ ticket, setTicket }) {
                 marginBottom: '1rem',
               }}
               alt="QR Code"
-              width={300}
-              height={300}
+              width={250}
+              height={250}
               priority
             />
             <button
               className="btn verify"
-              onClick={handleVerifyTx}>
+              onClick={() => handleVerifyTx()}>
               Confirm payment
             </button>
           </div>
+        )}
+        {confrimMsg && (
+          <span>
+            <h1 className="confirm">Transaction Succesfull ✔ </h1>
+            <p className="done"> {confrimMsg}</p>
+          </span>
         )}
       </form>
     </div>
