@@ -1,38 +1,134 @@
-.App {
+.heading {
   text-align: center;
+  text-transform: uppercase;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sub-heading {
+  text-align: center;
+  text-transform: capitalize;
+  opacity: 0.5;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+  color: orangered;
+  text-transform: capitalize;
+  padding-left: 2%;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.list {
   display: flex;
-  flex-direction: column;
+  width: 50%;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 1rem;
+  gap: 2rem;
+  /* background-color: #454545; */
+  padding: 2rem 2rem;
+  /* border: solid red; */
+}
+.img_wrapper {
+  width: 70%;
+}
+.ticket_img {
+  width: 100%;
+  border-radius: 8px 8px;
+}
+.name_price_wrapper {
+  width: 50%;
+}
+ul {
+  padding-left: 10%;
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: 40rem 40rem;
+  column-gap: -5rem;
+  row-gap: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.btn {
+  background-color: rgba(69, 40, 145, 0.8);
+  color: #fff;
+  outline: none;
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  text-transform: capitalize;
+  border-radius: 5px 5px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.btn:hover {
+  background-color: rgba(69, 40, 145, 0.4);
+}
+.ticket-name {
+  text-transform: capitalize;
+  font-weight: 900;
+}
+.price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: -0.2rem;
+}
+h2 {
+  padding-left: 12%;
+  margin-bottom: -5rem;
+  margin-top: 3rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.generateQrCode {
+  width: 30%;
+  /* box-sizing: border-box; */
+  min-height: 20rem;
+  padding: 1.3rem 5rem;
+  padding-bottom: 2%;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.11);
+}
+.form--overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding-top: 10%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+input,
+label {
+  display: block;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  width: 100%;
+}
+.summaryDetails {
+  display: block;
+  margin-bottom: 0.5rem;
+  /* line-height: 1.2; */
+}
+b {
+  text-transform: capitalize;
+}
+.dsc-name {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+.setDisplayNone {
+  display: none;
+}
+.verify {
+  width: 70%;
+  margin: 0 auto;
+}
+.close--btn {
+  color: red;
+  font-size: 1.3rem;
+  margin-left: 95%;
+  cursor: pointer;
+}
+.close--btn:hover {
+  color: #000;
 }
